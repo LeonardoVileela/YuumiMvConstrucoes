@@ -1,5 +1,4 @@
-qual seu nome?.
-qual o seu nome?.
+nome.
 como você se chama?.
 como vc se chama?.
 quantos anos vc tem?.
@@ -15,9 +14,7 @@ vc fala inglês?.
 tu sabe inglês?.
 tu fala inglês?.
 você é um humano?.
-você é uma pessoa?.
 vc é um humano?.
-vc é uma pessoa?.
 você guarda meus dados?.
 você armazena meus dados?.
 você fica com meus dados?.
@@ -175,7 +172,6 @@ vocês atendem no Mato Grosso?.
 vocês atendem no Mato Grosso do Sul?.
 vocês atendem no Minas Gerais?.
 vocês atendem no Pará?.
-vocês atendem no Para?.
 vocês atendem no Paraíba?.
 vocês atendem no Paraiba?.
 vocês atendem no Paraná?.
@@ -313,4 +309,45 @@ agendar reunião.
 quero agendar um reuniao.
 gostaria de uma reuniao.
 agendar reuniao.
-
+agendar.
+preciso agendar.
+necessito agendar.
+Gostaria de agendar.
+preciso de uma analise de solos.
+preciso de uma analise de solo.
+análise de solo.
+análise de solos.
+terraplanagem.
+teraplanagem.
+terraplanagen.
+teraplanagen.
+reforço para aumento de capacidade?.
+reforco para aumento de capacidade?.
+Os silos possuem algum tipo de reforço para aumento de capacidade?.
+Os silos possuem algum tipo de reforco para aumento de capacidade?.
+Os silos possuem algum tipo de reforço de solo para aumento de capacidade?.
+Os silos possuem algum tipo de reforco de solo para aumento de capacidade?.
+reforço de solo.
+reforco de solo.
+perido de chuva atrapalha.
+período de chuva atrapalha.
+periodo de chuva atrapalha.
+período de chuvas atrapalha.
+periodo de chuvas atrapalha.
+periudo de chuva atrapalha.
+período chuvoso atrapalha.
+periodo chuvoso atrapalha.
+periudo chuvoso atrapalha.
+trabalham com financiamento?.
+fazem financiamento?.
+assessoria para financiamento.
+asessoria para financiamento.
+asesoria para financiamento.
+acessoria para financiamento.
+aseçoria para financiamento.
+acesoria para financiamento.
+financiamento.
+financiar.
+vocês finamciam?.
+vocês financiam?.
+vocês financian?

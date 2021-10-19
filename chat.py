@@ -23,7 +23,7 @@ conteudo = conteudo.lower()
 conteudo = conteudo.split('.')
 
 # coloco o conteudo na minha lista de sentenças
-listaSentencas = conteudo
+listaSentencas = list(map(lambda s: s.strip(), conteudo))
 
 # agora vamos fazer uma lista com as intenções das sentenças
 # cada intenção terá um ID
@@ -31,7 +31,7 @@ listaIntencoes= []
 
 #range é -1
 # intenção 1 Nome
-for i in range(4):
+for i in range(3):
     listaIntencoes.append(1)
 
 # intenção 2 idade
@@ -43,7 +43,7 @@ for i in range(8):
     listaIntencoes.append(3)
 
 # intenção 4 se é humano
-for i in range(4):
+for i in range(2):
     listaIntencoes.append(4)
 
 # intenção 5 proteção de dados
@@ -119,7 +119,7 @@ for i in range(8):
     listaIntencoes.append(22)
 
 # intenção 23 deseja saber de atendimento em outros estados
-for i in range(46):
+for i in range(45):
     listaIntencoes.append(23)
 
 # intenção 24 deseja saber o hobby
@@ -230,9 +230,34 @@ for i in range(8):
 for i in range(4):
     listaIntencoes.append(50)
 
-# intenção 50 deseja agendar reunião
-for i in range(6):
+# intenção 51 deseja agendar reunião
+for i in range(10):
     listaIntencoes.append(51)
+
+# intenção 52 deseja analise do solo
+for i in range(4):
+    listaIntencoes.append(52)
+
+# intenção 53 deseja terraplanagem
+for i in range(4):
+    listaIntencoes.append(53)
+
+# intenção 54 deseja reforço solo
+for i in range(8):
+    listaIntencoes.append(54)
+
+# intenção 55 deseja sabe sobre chuva
+for i in range(9):
+    listaIntencoes.append(55)
+
+# intenção 55 deseja sabe financiamento
+for i in range(13):
+    listaIntencoes.append(56)
+
+
+
+
+
 
 
 respostas = {}
@@ -258,7 +283,7 @@ respostas["Nosso telefone de contato é o telefone: (67) 99960-2168."] = 19
 respostas["Nosso e-mail é o mvconstrucoesms@gmail.com ."] = 20
 respostas["Para se cadastrar a uma vaga de emprego, envie seu curriculum para o e-mail mvconstrucoesms@gmail.com ."] = 21
 respostas["Para fazer seu orçamento, entre em contato pelo E-MAIL mvconstrucoesms@gmail.com ."] = 22
-respostas["Nós atendemos em todos os estados do país. Entre em contato pelo E-MAIL mvconstrucoesms@gmail.com com e receba seu orçamento."] = 23
+respostas["Nós atendemos em todos os estados do país. Entre em contato pelo E-MAIL mvconstrucoesms@gmail.com e receba seu orçamento."] = 23
 respostas["Meu hobby é ajudar as pessoas."] = 24
 respostas["Eu não sou homem nem mulher, sou um robô."] = 25
 respostas["Para ver nosso portfólio entre no site www.mvconstrucoesms.com.br ."] = 26
@@ -287,6 +312,12 @@ respostas["Nós possuímos o melhor transporte de carga do país, entre em conta
 respostas["Sinto muito, nós não construímos prédios, você pode ver mais informações sobre nosso trabalho em www.mvconstrucoesms.com.br."] = 49
 respostas["Sinto muito, nós não construímos apartamentos, você pode ver mais informações sobre nosso trabalho em www.mvconstrucoesms.com.br."] = 50
 respostas["Para agendar sua reunião, basta enviar um e-mail para mvconstrucoesms@gmail.com informando o melhor horário para você."] = 51
+respostas["Nossa empresa faz a melhor análise de solo do país, com entrega do laudo em até 7 dias úteis. Entre em contato pelo E-MAIL mvconstrucoesms@gmail.com e receba seu orçamento."] = 52
+respostas["Temos o melhor serviço de terraplanagem, carga, descarga e compactação do material, incluídos no orçamento. O solo deve ser retirado do próprio local pertencente ao contratante em uma distância máxima de até 3 km. Entre em contato pelo E-MAIL mvconstrucoesms@gmail.com e receba seu orçamento."] = 53
+respostas["Nós trabalhamos com reforço de solo para faturamento o cliente conseguir aumentar a capacidade do silo, esse aumento depende do fabricante do equipamento. Para mais informações entre em contato pelo E-MAIL mvconstrucoesms@gmail.com."] = 54
+respostas["O período de chuva não atrapalha na entrega da unidade de armazenagem. Para mais informações entre em contato pelo E-MAIL mvconstrucoesms@gmail.com."] = 55
+respostas["Nós temos parceiros especialistas em financiamentos prontos para te ajudar. Para mais informações entre em contato pelo E-MAIL mvconstrucoesms@gmail.com ."] = 56
+
 
 #carrega o space em portugues, o space mudou o pacote do portugues da versão 2 pra 3
 #se estiver usando a versão 2 do spacy é spacy.load("pt")
@@ -375,6 +406,7 @@ def responder(respostaUsuario):
     # depois retiramos essa frase da lista
     listaSentencasPreProcessadas.append(respostaUsuario)
 
+
     # inicializamos um objeto chamado tfidf do tipo TfidfVectorizer
     tfidf = TfidfVectorizer()
 
@@ -409,6 +441,7 @@ def responder(respostaUsuario):
     # e depois pega o maior valor
     indice = similaridade.argsort()[0][-2]
 
+
     # transforma de numero simples para array
     vetorSimilar = similaridade.flatten()
 
@@ -417,6 +450,9 @@ def responder(respostaUsuario):
 
     #passa o indice da frase encontrada
     vetorEncontrado = vetorSimilar[-2]
+
+    del listaSentencasPreProcessadas[-1]
+
 
     # aqui verificamos , se ele encontrou alguma coisa o valor será != de 0
     # lembrando que a listaSentencas tem os indices iguais da listaSentencasPreProcessadas
@@ -446,7 +482,6 @@ while (continuar == True):
   if (texto_usuario != 'sair'):
     print('Yuumi: ')
     print(responder(preprocessamento(texto_usuario)))
-    listaSentencasPreProcessadas.remove(preprocessamento(texto_usuario))
   else:
     continuar = False
     print('Yuumi: Até breve!')
