@@ -1,14 +1,12 @@
 # -*- coding: utf-8 -*-
 
-import bs4 as bs
-import urllib.request
 import re
 import nltk
-import numpy as np
-import random
 import string
 import spacy
+from datetime import datetime
 nltk.download('punkt')
+
 
 #os dados ficam em um arquivo TXT
 arquivo = open('perguntas.txt', 'r', encoding="utf8")
@@ -22,11 +20,12 @@ conteudo = conteudo.lower()
 #fatio o texto pelos pontos finais das frases
 conteudo = conteudo.split('.')
 
-# coloco o conteudo na minha lista de sentenças
+# coloco o conteudo na minha lista de sentenças.
+# e tiro a quebra de linha.
 listaSentencas = list(map(lambda s: s.strip(), conteudo))
 
-# agora vamos fazer uma lista com as intenções das sentenças
-# cada intenção terá um ID
+# agora vamos fazer uma lista com as intenções das sentenças.
+# cada intenção terá um ID.
 listaIntencoes= []
 
 #range é -1
@@ -43,7 +42,7 @@ for i in range(8):
     listaIntencoes.append(3)
 
 # intenção 4 se é humano
-for i in range(2):
+for i in range(4):
     listaIntencoes.append(4)
 
 # intenção 5 proteção de dados
@@ -250,114 +249,172 @@ for i in range(8):
 for i in range(9):
     listaIntencoes.append(55)
 
-# intenção 55 deseja sabe financiamento
+# intenção 56 deseja sabe financiamento
 for i in range(13):
     listaIntencoes.append(56)
 
 
-
-
-
-
-
+# agora vamos fazer um MAP, a key é a resposta, e o value é o ID da intenção
 respostas = {}
-respostas["Meu nome é Yummi."] = 1
-respostas["Não tenho idade nem anos."] = 2
-respostas["Eu não falo inglês."] = 3
-respostas["Eu não sou um humano, sou um robô."] = 4
-respostas["Eu não armazeno nenhum dos seus dados."] = 5
-respostas["Quem me criou foi o Leonardo Vilela."] = 6
-respostas["Eu sei falar Português."] = 7
-respostas["Eu não tenho mãe nem pai, meu criador foi Leonardo Vilela."] = 8
-respostas["Eu moro no Brasil."] = 9
-respostas["Eu falo com várias pessoas ao mesmo tempo."] = 10
-respostas["Olhe essa piada, era uma vez um pintinho que se chama Relam, Toda vez que chovia, relam piava."] = 11
-respostas["Papai Noel existe sim."] = 12
-respostas["Meu filme favorito é Frozen. "] = 13
-respostas["Eu gosto de kpop."] = 14
-respostas["Se deseja atendimento humano, entre em contato pelo e-mail mvconstrucoesms@gmail.com ."] = 15
-respostas["Nosso endereço é Rua Leonel Velasco, 15 - Res. Oliveira. Campo Grande MS."] = 16
-respostas["Nosso site é o www.mvconstrucoesms.com.br ."] = 17
-respostas["Nosso instagram é o ."] = 18
-respostas["Nosso telefone de contato é o telefone: (67) 99960-2168."] = 19
-respostas["Nosso e-mail é o mvconstrucoesms@gmail.com ."] = 20
-respostas["Para se cadastrar a uma vaga de emprego, envie seu curriculum para o e-mail mvconstrucoesms@gmail.com ."] = 21
-respostas["Para fazer seu orçamento, entre em contato pelo E-MAIL mvconstrucoesms@gmail.com ."] = 22
-respostas["Nós atendemos em todos os estados do país. Entre em contato pelo E-MAIL mvconstrucoesms@gmail.com e receba seu orçamento."] = 23
-respostas["Meu hobby é ajudar as pessoas."] = 24
-respostas["Eu não sou homem nem mulher, sou um robô."] = 25
-respostas["Para ver nosso portfólio entre no site www.mvconstrucoesms.com.br ."] = 26
-respostas["Minha cor favorita é rosa."] = 27
-respostas["Gosto de chocolate."] = 28
-respostas["Meu esporte favorito é futebol."] = 29
-respostas["O tempo varia de construção para construção, pode entrar em contato pelo e-mail mvconstrucoesms@gmail.com e pedir seu orçamento."] = 30
-respostas["Executamos todos os tipos de bases de silos em concreto armado, fundo plano, elevados, totalmente perfurados, fundo cônico, moegas de grãos, armazéns e estruturas metálicas."] = 31
-respostas["A MV CONSTRUÇÕES oferece soluções diferenciadas no mercado da construção civil, buscando a satisfação de seus clientes e colaboradores fornecendo produtos e serviços de mão de obra com qualidade e segurança."] = 32
-respostas["Nossos maiores valores são: agilidade, comprometimento, credibilidade, flexibilidade, qualidade e preço justo."] = 33
-respostas["18/10/2021"] = 34
-respostas["21:00"] = 35
-respostas["Segunda-Feira"] = 36
-respostas["Outubro"] = 37
-respostas["Temos os melhores projetistas do país, para oferecer os melhores projetos CAD para você. Entre em contato pelo E-MAIL mvconstrucoesms@gmail.com com e receba seu orçamento."] = 38
-respostas["Olá, meu nome é Yuumi, estou aqui para te ajudar no que precisar."] = 39
-respostas["Nós construímos as melhores bases de silo do país, entre em contato pelo E-MAIL mvconstrucoesms@gmail.com e receba seu orçamento."] = 40
-respostas["Nós construímos os melhores armazéns do país, entre em contato pelo E-MAIL mvconstrucoesms@gmail.com e receba seu orçamento."] = 41
-respostas["Nós construímos as melhores moegas do país, entre em contato pelo E-MAIL mvconstrucoesms@gmail.come receba seu orçamento."] = 42
-respostas["Nós construímos as melhores estruturas metálicas do país, entre em contato pelo E-MAIL mvconstrucoesms@gmail.come receba seu orçamento."] = 43
-respostas["Nós temos as melhores instalações elétricas do país, entre em contato pelo E-MAIL mvconstrucoesms@gmail.com e receba seu orçamento."] = 44
-respostas["Nós construímos as melhores bases de secadores do país, entre em contato pelo E-MAIL mvconstrucoesms@gmail.com e receba seu orçamento."] = 45
-respostas["Nós construímos as melhores balanças rodoviárias do país, entre em contato pelo E-MAIL mvconstrucoesms@gmail.com com e receba seu orçamento."] = 46
-respostas["Nós temos o melhor concreto armado do país, entre em contato pelo E-MAIL mvconstrucoesms@gmail.com e receba seu orçamento."] = 47
-respostas["Nós possuímos o melhor transporte de carga do país, entre em contato pelo E-MAIL mvconstrucoesms@gmail.com e receba seu orçamento."] = 48
-respostas["Sinto muito, nós não construímos prédios, você pode ver mais informações sobre nosso trabalho em www.mvconstrucoesms.com.br."] = 49
-respostas["Sinto muito, nós não construímos apartamentos, você pode ver mais informações sobre nosso trabalho em www.mvconstrucoesms.com.br."] = 50
-respostas["Para agendar sua reunião, basta enviar um e-mail para mvconstrucoesms@gmail.com informando o melhor horário para você."] = 51
-respostas["Nossa empresa faz a melhor análise de solo do país, com entrega do laudo em até 7 dias úteis. Entre em contato pelo E-MAIL mvconstrucoesms@gmail.com e receba seu orçamento."] = 52
-respostas["Temos o melhor serviço de terraplanagem, carga, descarga e compactação do material, incluídos no orçamento. O solo deve ser retirado do próprio local pertencente ao contratante em uma distância máxima de até 3 km. Entre em contato pelo E-MAIL mvconstrucoesms@gmail.com e receba seu orçamento."] = 53
-respostas["Nós trabalhamos com reforço de solo para faturamento o cliente conseguir aumentar a capacidade do silo, esse aumento depende do fabricante do equipamento. Para mais informações entre em contato pelo E-MAIL mvconstrucoesms@gmail.com."] = 54
-respostas["O período de chuva não atrapalha na entrega da unidade de armazenagem. Para mais informações entre em contato pelo E-MAIL mvconstrucoesms@gmail.com."] = 55
-respostas["Nós temos parceiros especialistas em financiamentos prontos para te ajudar. Para mais informações entre em contato pelo E-MAIL mvconstrucoesms@gmail.com ."] = 56
+
+# como estamos trabalhamos com dados em tempo real ,como data e hora
+# temos a função adicionarRespostas para atualizar os dados
+def adicionarRespostas():
+    diaDaSemanaTest = datetime.today().weekday()
+
+    diaDaSemana = ''
+    if diaDaSemanaTest == 0:
+        diaDaSemana = 'Segunda-Feira'
+    elif diaDaSemanaTest == 1:
+        diaDaSemana = 'Terça-feira'
+    elif diaDaSemanaTest == 2:
+        diaDaSemana = 'Quarta-feira'
+    elif diaDaSemanaTest == 3:
+        diaDaSemana = 'Quinta-Feira'
+    elif diaDaSemanaTest == 4:
+        diaDaSemana = 'Sexta-feira'
+    elif diaDaSemanaTest == 5:
+        diaDaSemana = 'Sábado'
+    elif diaDaSemanaTest == 6:
+        diaDaSemana = 'Domingo'
+
+    mesTeste = datetime.today().date().month
+    mesNumber = ''
+    mes = ''
+    if mesTeste == 1:
+        mesNumber = '01'
+        mes = 'Janeiro'
+    elif mesTeste == 2:
+        mesNumber = '02'
+        mes = 'Fevereiro'
+    elif mesTeste == 3:
+        mesNumber = '03'
+        mes = 'Março'
+    elif mesTeste == 4:
+        mesNumber = '04'
+        mes = 'Abril'
+    elif mesTeste == 5:
+        mesNumber = '05'
+        mes = 'Maio'
+    elif mesTeste == 6:
+        mesNumber = '06'
+        mes = 'Junho'
+    elif mesTeste == 7:
+        mesNumber = '07'
+        mes = 'Julho'
+    elif mesTeste == 8:
+        mesNumber = '08'
+        mes = 'Agosto'
+    elif mesTeste == 9:
+        mesNumber = '09'
+        mes = 'Setembro'
+    elif mesTeste == 10:
+        mesNumber = '10'
+        mes = 'Outubro'
+    elif mesTeste == 11:
+        mesNumber = '11'
+        mes = 'Novembro'
+    elif mesTeste == 12:
+        mesNumber = '12'
+        mes = 'Dezembro'
+
+    respostas["Meu nome é Yummi."] = 1
+    respostas["Não tenho idade nem anos."] = 2
+    respostas["Eu não falo inglês."] = 3
+    respostas["Eu não sou um humano, sou um robô."] = 4
+    respostas["Eu não armazeno nenhum dos seus dados."] = 5
+    respostas["Quem me criou foi o Leonardo Vilela."] = 6
+    respostas["Eu sei falar Português."] = 7
+    respostas["Eu não tenho mãe nem pai, meu criador foi Leonardo Vilela."] = 8
+    respostas["Eu moro no Brasil."] = 9
+    respostas["Eu falo com várias pessoas ao mesmo tempo."] = 10
+    respostas["Olhe essa piada, era uma vez um pintinho que se chama Relam, Toda vez que chovia, relam piava."] = 11
+    respostas["Papai Noel existe sim."] = 12
+    respostas["Meu filme favorito é Frozen. "] = 13
+    respostas["Eu gosto de kpop."] = 14
+    respostas["Se deseja atendimento humano, entre em contato pelo e-mail mvconstrucoesms@gmail.com ."] = 15
+    respostas["Nosso endereço é Rua Leonel Velasco, 15 - Res. Oliveira. Campo Grande MS."] = 16
+    respostas["Nosso site é o www.mvconstrucoesms.com.br ."] = 17
+    respostas["Nosso instagram é o ."] = 18
+    respostas["Nosso telefone de contato é o telefone: (67) 99960-2168."] = 19
+    respostas["Nosso e-mail é o mvconstrucoesms@gmail.com ."] = 20
+    respostas["Para se cadastrar a uma vaga de emprego, envie seu curriculum para o e-mail mvconstrucoesms@gmail.com ."] = 21
+    respostas["Para fazer seu orçamento, entre em contato pelo E-MAIL mvconstrucoesms@gmail.com ."] = 22
+    respostas["Nós atendemos em todos os estados do país. Entre em contato pelo E-MAIL mvconstrucoesms@gmail.com e receba seu orçamento."] = 23
+    respostas["Meu hobby é ajudar as pessoas."] = 24
+    respostas["Eu não sou homem nem mulher, sou um robô."] = 25
+    respostas["Para ver nosso portfólio entre no site www.mvconstrucoesms.com.br ."] = 26
+    respostas["Minha cor favorita é rosa."] = 27
+    respostas["Gosto de chocolate."] = 28
+    respostas["Meu esporte favorito é futebol."] = 29
+    respostas["O tempo varia de construção para construção, pode entrar em contato pelo e-mail mvconstrucoesms@gmail.com e pedir seu orçamento."] = 30
+    respostas["Executamos todos os tipos de bases de silos em concreto armado, fundo plano, elevados, totalmente perfurados, fundo cônico, moegas de grãos, armazéns e estruturas metálicas."] = 31
+    respostas["A MV CONSTRUÇÕES oferece soluções diferenciadas no mercado da construção civil, buscando a satisfação de seus clientes e colaboradores fornecendo produtos e serviços de mão de obra com qualidade e segurança."] = 32
+    respostas["Nossos maiores valores são: agilidade, comprometimento, credibilidade, flexibilidade, qualidade e preço justo."] = 33
+    respostas["Data de hoje: " + ("0" + str(datetime.today().date().day), str(datetime.today().date().day))[datetime.today().date().day > 9] + "/" + str(mesNumber) + "/" + str(datetime.today().date().year)] = 34
+    respostas["Agora são: " + str(datetime.today().time().hour) + ":" + str(datetime.today().time().minute)] = 35
+    respostas[str(diaDaSemana)] = 36
+    respostas[str(mes)] = 37
+    respostas["Temos os melhores projetistas do país, para oferecer os melhores projetos CAD para você. Entre em contato pelo E-MAIL mvconstrucoesms@gmail.com com e receba seu orçamento."] = 38
+    respostas["Olá, meu nome é Yuumi, estou aqui para te ajudar no que precisar."] = 39
+    respostas["Nós construímos as melhores bases de silo do país, entre em contato pelo E-MAIL mvconstrucoesms@gmail.com e receba seu orçamento."] = 40
+    respostas["Nós construímos os melhores armazéns do país, entre em contato pelo E-MAIL mvconstrucoesms@gmail.com e receba seu orçamento."] = 41
+    respostas["Nós construímos as melhores moegas do país, entre em contato pelo E-MAIL mvconstrucoesms@gmail.come receba seu orçamento."] = 42
+    respostas["Nós construímos as melhores estruturas metálicas do país, entre em contato pelo E-MAIL mvconstrucoesms@gmail.come receba seu orçamento."] = 43
+    respostas["Nós temos as melhores instalações elétricas do país, entre em contato pelo E-MAIL mvconstrucoesms@gmail.com e receba seu orçamento."] = 44
+    respostas["Nós construímos as melhores bases de secadores do país, entre em contato pelo E-MAIL mvconstrucoesms@gmail.com e receba seu orçamento."] = 45
+    respostas["Nós construímos as melhores balanças rodoviárias do país, entre em contato pelo E-MAIL mvconstrucoesms@gmail.com com e receba seu orçamento."] = 46
+    respostas["Nós temos o melhor concreto armado do país, entre em contato pelo E-MAIL mvconstrucoesms@gmail.com e receba seu orçamento."] = 47
+    respostas["Nós possuímos o melhor transporte de carga do país, entre em contato pelo E-MAIL mvconstrucoesms@gmail.com e receba seu orçamento."] = 48
+    respostas["Sinto muito, nós não construímos prédios, você pode ver mais informações sobre nosso trabalho em www.mvconstrucoesms.com.br."] = 49
+    respostas["Sinto muito, nós não construímos apartamentos, você pode ver mais informações sobre nosso trabalho em www.mvconstrucoesms.com.br."] = 50
+    respostas["Para agendar sua reunião, basta enviar um e-mail para mvconstrucoesms@gmail.com informando o melhor horário para você."] = 51
+    respostas["Nossa empresa faz a melhor análise de solo do país, com entrega do laudo em até 7 dias úteis. Entre em contato pelo E-MAIL mvconstrucoesms@gmail.com e receba seu orçamento."] = 52
+    respostas["Temos o melhor serviço de terraplanagem, carga, descarga e compactação do material, incluídos no orçamento. O solo deve ser retirado do próprio local pertencente ao contratante em uma distância máxima de até 3 km. Entre em contato pelo E-MAIL mvconstrucoesms@gmail.com e receba seu orçamento."] = 53
+    respostas["Nós trabalhamos com reforço de solo para faturamento o cliente conseguir aumentar a capacidade do silo, esse aumento depende do fabricante do equipamento. Para mais informações entre em contato pelo E-MAIL mvconstrucoesms@gmail.com."] = 54
+    respostas["O período de chuva não atrapalha na entrega da unidade de armazenagem. Para mais informações entre em contato pelo E-MAIL mvconstrucoesms@gmail.com."] = 55
+    respostas["Nós temos parceiros especialistas em financiamentos prontos para te ajudar. Para mais informações entre em contato pelo E-MAIL mvconstrucoesms@gmail.com ."] = 56
 
 
-#carrega o space em portugues, o space mudou o pacote do portugues da versão 2 pra 3
-#se estiver usando a versão 2 do spacy é spacy.load("pt")
-#se não funcionar verificar sua versão na documentção oficial
+# carrega o space em português, o space mudou o pacote do português da versão 2 pra 3
+# se estiver usando a versão 2 do spacy é spacy.load("pt")
+# se não funcionar verificar sua versão na documentção oficial
 naturalLanguageprocessing = spacy.load("pt_core_news_sm")
 
-#remove as palavras que não dão sentido para frase
-#stop word depende muito do contexto do chatbot
-#pode fazer um 'set' manualmente com as palavras se fazer sentido pro contexo do chatbot
+# remove as palavras que não dão sentido para frase
+# stop word depende muito do contexto do chatbot
+# pode fazer um 'set' manualmente com as palavras se fazer sentido pro contexto do chatbot
 stopWord = spacy.lang.pt.stop_words.STOP_WORDS
 
-#também é necessario remover pontuações do texto
-#vamos utilizar string.punctuation para fazer isso
-#string.punctuation
+# também é necessário remover pontuações do texto
+# vamos utilizar string.punctuation para fazer isso
+# string.punctuation
 
 # nessa função vamos fazer um pré-processamento para remover coisas inúteis dos textos
-#como Urls, espaços em brancos, stopwords e pontuação
+# como Urls, espaços em brancos, stopwords e pontuação
 def preprocessamento(texto):
 
-    #remove qualquer tipo de URL dos textos
+    # remove qualquer tipo de URL dos textos
     texto = re.sub(r"https?://[A-Za-z0-9./]+", ' ', texto)
 
-    #remove qualquer espaço em branco
+    # remove qualquer espaço em branco
     texto =  re.sub(r" +", ' ', texto)
 
-    #documento recebe o texto usando o spacy
+    # documento recebe o texto usando o spacy
     documento = naturalLanguageprocessing(texto)
 
     lista = []
-    #esse for basicamente pega a raiz das palavras
-    #como por exemplo transformar, navegando em navegar
-    #faz esse processamento e joga na lista
+    # esse for basicamente pega a raiz das palavras
+    # como por exemplo transformar, navegando em navegar
+    # faz esse processamento e joga na lista
     for token in documento:
         lista.append(token.lemma_)
 
-    #agora é hora de tirar todas as stop words da lista
+    # agora é hora de tirar todas as stop words da lista
     # e tirar também todas as pontuações
     lista = [palavra for palavra in lista if palavra not in stopWord and palavra not in string.punctuation]
 
-    #agora vamos juntar todos os elementos da lista e transformar um texto de novo
+    # agora vamos juntar todos os elementos da lista e transformar em um texto de novo
     lista = ' '.join([str(elemento) for elemento in lista if not elemento.isdigit()])
 
     return lista
@@ -365,28 +422,15 @@ def preprocessamento(texto):
 
 listaSentencasPreProcessadas = []
 
-# com esse for adicionamos todas as frases que estavam listaSentencas
+# Nesse FOR adicionamos todas as frases que estavam na listaSentencas
 # em listaSentencasPreProcessadas só que com aquele processamento feito na função preprocessamento
 for i in range(len(listaSentencas)):
     listaSentencasPreProcessadas.append((preprocessamento(listaSentencas[i])))
 
-#váriaveis para dar pro chatbot o poder de cumprimentar a pessoa
-entradaCumprimento = ('hey', 'olá', 'opa', 'oi', 'eae')
-saidaCumprimento = ('hey', 'olá', 'opa', 'oi', 'bem-vindo', 'como você está?')
-
-# função simples que busca o cumprimento e retona umas das respostas
-# contidas na lista saidaCumprimento
-def responderCumprimento(texto):
-  for palavra in texto.split():
-    if palavra.lower() in entradaCumprimento:
-      return random.choice(saidaCumprimento)
-
-
 
 # para calcular o TF-IDF utilizaremos o TfidfVectorizer
-# ele vai nos ajudar com os calculos
+# ele vai nos ajudar com os cálculos
 from sklearn.feature_extraction.text import TfidfVectorizer
-
 
 
 # para agilidade utilizaremos outro pacote do sklearn
@@ -401,17 +445,16 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 def responder(respostaUsuario):
     respostaChatbot = ''
-    # vamos adicionar a resposta do usuario no final
-    # assim vamos poder fazer a compração com todas as frases
+    # vamos adicionar a resposta do usuário no final
+    # assim vamos poder fazer a comparação com todas as frases
     # depois retiramos essa frase da lista
     listaSentencasPreProcessadas.append(respostaUsuario)
-
 
     # inicializamos um objeto chamado tfidf do tipo TfidfVectorizer
     tfidf = TfidfVectorizer()
 
-    # o fit_transform transforma tudos os textos em uma matrix.
-    # ele encontra todas as palavras unicas.
+    # o fit_transform transforma todos os textos em uma matrix.
+    # ele encontra todas as palavras únicas.
     # cada palavra recebe um ID, lembrando que aqui o algoritmo não entende as palavras
     # mas sim o número que está associado aquela palavra.
     palavrasMatrix = tfidf.fit_transform(listaSentencasPreProcessadas)
@@ -419,17 +462,16 @@ def responder(respostaUsuario):
     # caso deseje ver o calculo do IDF utilize o código abaixo
     # print(vetorDePalavras.idf_)
 
-    # caso deseje analizar os calculos do TF-IDF.
-    # vc pode analizar a matrix palavrasMatrix.
-    # analise utilizando o comando abaixo
+    # caso deseje analisar os cálculos do TF-IDF.
+    # vc pode analisar a matrix palavrasMatrix.
+    # analise é feita utilizando o comando abaixo
     # print(palavrasMatrix.todense())
 
     # se deseja ver qual as medidas da matrix utilize o comando
     # print(palavrasMatrix.todense().shape)
 
-
-    # agora vamos fazer o calculo do Cosine similarity
-    # para mais detalhes desse calculo deixo um link abaixo
+    # agora vamos fazer o cálculo do Cosine similarity
+    # para mais detalhes desse cálculo deixo um link abaixo
     # https://en.wikipedia.org/wiki/Cosine_similarity
 
     # aqui fazemos a comparação de uma frase dessa matrix com todas as frase
@@ -441,36 +483,37 @@ def responder(respostaUsuario):
     # e depois pega o maior valor
     indice = similaridade.argsort()[0][-2]
 
-
-    # transforma de numero simples para array
+    # transforma de número simples para array
     vetorSimilar = similaridade.flatten()
 
-    #ordena o vetor
+    # ordena o vetor
     vetorSimilar.sort()
 
-    #passa o indice da frase encontrada
+    # passa o indice da frase encontrada
     vetorEncontrado = vetorSimilar[-2]
 
+    # agora temos que remover a frase do usuário da lista
+    # para que seja possível fazer as próximas comparações
     del listaSentencasPreProcessadas[-1]
 
-
-    # aqui verificamos , se ele encontrou alguma coisa o valor será != de 0
-    # lembrando que a listaSentencas tem os indices iguais da listaSentencasPreProcessadas
-    # assim que posso retornar a listaSentencas já que é a que tem um formato humano de se entender
+    # aqui verificamos se ele encontrou alguma coisa, se o valor será != de 0 ele encontrou
+    # lembrando que a listaSentencas tem os índices iguais da listaSentencasPreProcessadas e listaIntencoes
+    # assim que posso retornar a listaIntencoes key, já que é aonde se encontra as respostas
     if (vetorEncontrado == 0):
         respostaChatbot = respostaChatbot + 'Desculpe, mas não entendi!'
         return respostaChatbot
     else:
+        # atualiza as respostas e limpando o map e adicionando de novo
+        respostas.clear()
+        adicionarRespostas()
         for key, value in respostas.items():
             if(value == listaIntencoes[indice]):
                 respostaChatbot = key
         return respostaChatbot
 
-    # como os calculos foram feito pelo sklearn,
+    # como os cálculos foram feito pelo sklearn,
     # deixou um artigo abaixo com toda a explicação sobre TF - IDF
     # https://janav.wordpress.com/2013/10/27/tf-idf-and-cosine-similarity/
-
-
 
 
 continuar = True
